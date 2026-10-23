@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Twin Spirits — The Lost Garden</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Background Ambience & Scenery -->
+  <div class="bg-sky"></div>
+  <div class="crescent-moon"></div>
+  <div class="castle-silhouette"></div>
+
+  <!-- Hanging Lanterns -->
+  <div class="lantern lantern-top-left">
+    <div class="lantern-chain"></div>
+    <div class="lantern-body"></div>
+  </div>
+  <div class="lantern lantern-top-right">
+    <div class="lantern-chain"></div>
+    <div class="lantern-body"></div>
+  </div>
+
+  <!-- Black Pixel Cat on Stone Ledge with Purple Flowers (Bottom-Left) -->
+  <div class="cat-ledge">
+    <div class="flower-bush"></div>
+    <div class="pixel-cat">
+      <div class="cat-body"></div>
+      <div class="cat-head"></div>
+      <div class="cat-ear-left"></div>
+      <div class="cat-ear-right"></div>
+      <div class="cat-eye"></div>
+      <div class="cat-tail"></div>
+    </div>
+    <div class="stone-ledge"></div>
+  </div>
+
+  <!-- Stone Bridge & River (Bottom-Right) -->
+  <div class="bridge-river-scene">
+    <div class="river-stream"></div>
+    <div class="stone-bridge">
+      <div class="bridge-post left"></div>
+      <div class="bridge-post right"></div>
+    </div>
+  </div>
+
+  <!-- Main App Wrapper -->
+  <div id="app-container">
+
+    <!-- Top Bar: Title Plaque & Top Controls -->
+    <header class="top-bar">
+      <div class="title-plaque">
+        <div class="title-plaque-crest">🌙</div>
+        <h1 class="main-title">The Lost Garden</h1>
+        <span class="main-tagline">✦ Two paths. One goal. ✦</span>
+      </div>
+
+      <div class="top-controls">
+        <button id="btn-top-audio" class="icon-btn-sleek" title="Toggle Sound (M)">🌙</button>
+        <button id="btn-top-settings" class="icon-btn-sleek" title="Settings">⚙️</button>
+      </div>
+    </header>
+
+    <!-- Center Layout -->
+    <main class="game-layout">
+
+      <!-- Left Panel: "THE RULES" -->
+      <aside class="sleek-filigree-panel left-panel">
+        <div class="panel-header-title">✦ THE RULES ✦</div>
+        <div class="rules-content">
+          <div class="rules-intro-text">
+            Guide both characters to the portal. Work together, use the paths and avoid the obstacles.
+          </div>
+
+          <div style="background: rgba(11, 10, 31, 0.45); padding: 8px 10px; border-radius: 6px; border-left: 3px solid var(--teal);">
+            <div style="font-family: 'Silkscreen', monospace; font-size: 10px; color: var(--teal); margin-bottom: 2px;">✦ CURRENT RULE</div>
+            <p id="rules-mirror-desc" style="font-size: 13px; color: var(--moon-gold);">UP and DOWN are mirrored. LEFT and RIGHT move together.</p>
+          </div>
+
+          <div class="rules-keys-block">
+            <div class="key-row">
+              <span>✦ Move P1:</span>
+              <div>
+                <span class="key-badge">←</span>
+                <span class="key-badge">↓</span>
+                <span class="key-badge">→</span>
+              </div>
+            </div>
+            <div class="key-row">
+              <span>✦ Move P2:</span>
+              <div>
+                <span class="key-badge">W</span>
+                <span class="key-badge">A</span>
+                <span class="key-badge">S</span>
+                <span class="key-badge">D</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="legend-group">
+            <div class="legend-row">
+              <div class="legend-icon-badge">🏮</div>
+              <div class="legend-text">
+                <strong>Magic Lights</strong>
+                <span>illuminate corridor paths</span>
+              </div>
+            </div>
+
+            <div class="legend-row">
+              <div class="legend-icon-badge">🌿</div>
+              <div class="legend-text">
+                <strong>Bush Walls</strong>
+                <span>block character movement</span>
+              </div>
+            </div>
+
+            <div class="legend-row">
+              <div class="legend-icon-badge">⛩️</div>
+              <div class="legend-text">
+                <strong>Portal</strong>
+                <span>reach simultaneously to win</span>
+              </div>
+            </div>
+
+            <div class="legend-row" id="hazard-legend-block">
+              <div class="legend-icon-badge">🔥</div>
+              <div class="legend-text">
+                <strong>Hazards</strong>
+                <span>flames, pools, orbs deal 1 heart</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Center Column: HUD Bar & Ivy Canvas -->
+      <section class="center-column">
+        <div class="hud-bar-sleek">
+          <div class="hud-pill-left">
+            <span id="hud-level-text">✦ Level 1 / 5</span>
+            <div class="hud-diamonds-pip" id="hud-diamonds"></div>
+          </div>
+
+          <div class="hud-timer-sleek">
+            <span>⏱</span>
+            <span id="hud-timer">00:00</span>
+          </div>
+
+          <div class="hud-stats-right">
+            <span class="hud-moves-val" id="hud-moves">MOVES: 0</span>
+            <span class="hud-par-val" id="hud-par">PAR: 15</span>
+          </div>
+        </div>
+
+        <div id="hud-turn-banner" class="turn-banner" style="display: none;"></div>
+
+        <div class="canvas-frame-ivy">
+          <canvas id="game-canvas"></canvas>
+
+          <!-- Level 1 Speech Bubble -->
+          <div id="tutorial-speech-bubble" class="speech-bubble">
+            <div class="speech-text" id="tutorial-speech-text"></div>
+            <button id="tutorial-speech-close" class="speech-close">GOT IT</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Panel: Portraits, Hearts, Action Buttons, Joystick, Quote -->
+      <aside class="sleek-filigree-panel right-panel">
+        <div class="panel-header-title">✦ TWIN SPIRITS ✦</div>
+
+        <!-- P1 Row Badge (Ember) -->
+        <div class="spirit-row-badge ember">
+          <div class="spirit-circle-avatar" id="p1-portrait">
+            <span style="font-size: 24px;">🧙‍♀️</span>
+          </div>
+          <div class="spirit-row-info">
+            <div class="spirit-label-title">P1 (EMBER)</div>
+            <div class="hearts-row-sleek" id="p1-hearts"></div>
+          </div>
+        </div>
+
+        <!-- P2 Row Badge (Tide) -->
+        <div class="spirit-row-badge tide">
+          <div class="spirit-circle-avatar" id="p2-portrait">
+            <span style="font-size: 24px;">🧙‍♂️</span>
+          </div>
+          <div class="spirit-row-info">
+            <div class="spirit-label-title">P2 (TIDE)</div>
+            <div class="hearts-row-sleek" id="p2-hearts"></div>
+          </div>
+        </div>
+
+        <!-- Sleek Rounded Action Buttons -->
+        <div class="action-pill-buttons">
+          <button id="btn-panel-pause" class="btn-pill-sleek">
+            <span>⏸</span> PAUSE
+          </button>
+          <button id="btn-panel-restart" class="btn-pill-sleek">
+            <span>⟳</span> RESTART
+          </button>
+        </div>
+
+        <!-- On-Screen 8-Way Joystick -->
+        <div class="joystick-container">
+          <div id="joystick-base" class="joystick-base">
+            <div class="joystick-notch" data-dir="N">▲</div>
+            <div class="joystick-notch" data-dir="NE">↗</div>
+            <div class="joystick-notch" data-dir="E">▶</div>
+            <div class="joystick-notch" data-dir="SE">↘</div>
+            <div class="joystick-notch" data-dir="S">▼</div>
+            <div class="joystick-notch" data-dir="SW">↙</div>
+            <div class="joystick-notch" data-dir="W">◀</div>
+            <div class="joystick-notch" data-dir="NW">↖</div>
+            <div id="joystick-knob" class="joystick-knob"></div>
+          </div>
+        </div>
+
+        <!-- Quote with Star Divider -->
+        <div class="panel-quote-sleek">
+          "Not all who wander are lost... some are just solving puzzles."
+        </div>
+      </aside>
+
+    </main>
+  </div>
+
+  <!-- MODALS -->
+
+  <!-- 1. Landing Page Modal -->
+  <div id="modal-landing" class="modal-overlay active">
+    <div class="modal-dialog">
+      <div style="text-align: center; display: flex; flex-direction: column; gap: 16px; align-items: center;">
+        <h2 class="modal-title">THE LOST GARDEN</h2>
+        <div class="main-tagline">✦ OPPOSITE PATHS. ONE GOAL. ✦</div>
+
+        <div style="display: flex; gap: 28px; justify-content: center; margin: 8px 0;">
+          <div class="floating-spirit ember" style="font-size: 44px;">🧙‍♀️</div>
+          <div class="floating-spirit tide" style="font-size: 44px;">🧙‍♂️</div>
+        </div>
+
+        <button id="btn-landing-start" class="btn-start-large">PRESS START</button>
+
+        <div class="modal-buttons" style="flex-wrap: wrap;">
+          <button id="btn-landing-howto" class="btn-retro">HOW TO PLAY</button>
+          <button id="btn-landing-levels" class="btn-retro">LEVELS</button>
+          <button id="btn-landing-settings" class="btn-retro">SETTINGS</button>
+        </div>
+
+        <div style="font-size: 12px; color: #8e80b8; margin-top: 6px;">
+          Created with pure HTML, CSS, Vanilla JS & Web Audio API
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Story Modal -->
+  <div id="modal-story" class="modal-overlay">
+    <div class="modal-dialog">
+      <h2 class="modal-title">THE TALE OF THE TWINS</h2>
+      <div class="typewriter-box" id="story-typewriter-text"></div>
+      <div class="modal-buttons">
+        <button id="btn-story-skip" class="btn-retro">BEGIN JOURNEY</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. How to Play Modal -->
+  <div id="modal-how-to" class="modal-overlay">
+    <div class="modal-dialog">
+      <h2 class="modal-title">HOW TO PLAY</h2>
+      <div style="font-size: 14px; display: flex; flex-direction: column; gap: 10px; max-height: 400px; overflow-y: auto;">
+        <p><strong>✦ ONE INPUT, TWO SPIRITS:</strong> Every directional command guides both Ember (Lilac Witch) and Tide (Teal Mage). Their steps are linked by mirror rules!</p>
+        <p><strong>✦ WALL BLOCKS:</strong> If one spirit hits a bush wall, it stays still while its twin still moves. Use walls to desynchronize your paths!</p>
+        <p><strong>✦ CONTROLS:</strong> WASD or Arrow Keys for straight moves. Diagonals: QEZC, Numpad, or pressing two arrows within 80ms. Or drag the on-screen joystick!</p>
+        <p><strong>✦ HAZARDS:</strong> Entering flame, water, electric or arrow tiles costs 1 heart. If either spirit reaches 0 hearts, the level restarts.</p>
+        <p><strong>✦ GOAL:</strong> Guide Ember and Tide to their portals simultaneously to triumph!</p>
+      </div>
+      <div class="modal-buttons">
+        <button id="btn-howto-close" class="btn-retro">BACK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Level Select Modal -->
+  <div id="modal-level-select" class="modal-overlay">
+    <div class="modal-dialog">
+      <h2 class="modal-title">SELECT SANCTUARY</h2>
+      <div class="level-nodes-grid" id="level-nodes-container"></div>
+      <div class="modal-buttons">
+        <button id="btn-levelselect-close" class="btn-retro">BACK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Level Intro Card Modal -->
+  <div id="modal-level-intro" class="modal-overlay">
+    <div class="modal-dialog">
+      <h2 class="modal-title" id="intro-card-title">LEVEL 1: THE GARDEN GATE</h2>
+      <p id="intro-card-flavor" style="text-align: center; color: #cfc6f0; font-style: italic;"></p>
+      <div style="background: #0d0a24; border: 2px solid var(--moon-gold); border-radius: 8px; padding: 12px; font-size: 16px; color: var(--moon-gold); text-align: center;" id="intro-card-twist"></div>
+      <div class="modal-buttons">
+        <button id="btn-intro-start" class="btn-start-large">START LEVEL</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Pause Modal -->
+  <div id="modal-pause" class="modal-overlay">
+    <div class="modal-dialog" style="max-width: 420px;">
+      <h2 class="modal-title">PAUSED</h2>
+      <div class="modal-buttons" style="flex-direction: column; gap: 10px;">
+        <button id="btn-pause-resume" class="btn-retro">RESUME (P)</button>
+        <button id="btn-pause-restart" class="btn-retro">RESTART LEVEL (R)</button>
+        <button id="btn-pause-levels" class="btn-retro">LEVEL SELECT</button>
+        <button id="btn-pause-settings" class="btn-retro">SETTINGS</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Settings Modal -->
+  <div id="modal-settings" class="modal-overlay">
+    <div class="modal-dialog" style="max-width: 480px;">
+      <h2 class="modal-title">SETTINGS</h2>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div class="setting-row">
+          <span>MASTER VOLUME</span>
+          <input type="range" id="slider-master" min="0" max="1" step="0.05" value="0.8">
+        </div>
+        <div class="setting-row">
+          <span>MUSIC VOLUME</span>
+          <input type="range" id="slider-music" min="0" max="1" step="0.05" value="0.5">
+        </div>
+        <div class="setting-row">
+          <span>SFX VOLUME</span>
+          <input type="range" id="slider-sfx" min="0" max="1" step="0.05" value="0.8">
+        </div>
+        <div class="setting-row">
+          <span>MUTE AUDIO (M)</span>
+          <input type="checkbox" id="toggle-mute">
+        </div>
+        <div class="setting-row">
+          <span>PARTICLE & LIGHTING EFFECTS</span>
+          <input type="checkbox" id="toggle-effects" checked>
+        </div>
+        <div class="setting-row">
+          <span>SHOW GRID OVERLAY</span>
+          <input type="checkbox" id="toggle-grid">
+        </div>
+      </div>
+      <div class="modal-buttons">
+        <button id="btn-settings-close" class="btn-retro">CLOSE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. Level Complete Modal -->
+  <div id="modal-level-complete" class="modal-overlay">
+    <div class="modal-dialog">
+      <h2 class="modal-title">SANCTUARY RESTORED!</h2>
+      <div class="complete-stars-box" id="complete-stars"></div>
+      <div class="stats-grid">
+        <div class="stat-item"><span>MOVES TAKEN:</span><span class="stat-val" id="complete-moves">0</span></div>
+        <div class="stat-item"><span>PAR MOVES:</span><span class="stat-val" id="complete-par">0</span></div>
+        <div class="stat-item"><span>TIME:</span><span class="stat-val" id="complete-time">00:00</span></div>
+        <div class="stat-item"><span>HEARTS SAVED:</span><span class="stat-val" id="complete-hearts">5 / 5</span></div>
+      </div>
+      <div class="modal-buttons">
+        <button id="btn-complete-next" class="btn-start-large">NEXT LEVEL</button>
+        <button id="btn-complete-select" class="btn-retro">LEVEL SELECT</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. Game Over Modal -->
+  <div id="modal-game-over" class="modal-overlay">
+    <div class="modal-dialog" style="max-width: 480px;">
+      <h2 class="modal-title" style="color: var(--spirit-red);">SPIRITS SHATTERED</h2>
+      <p id="gameover-reason" style="text-align: center; color: #cfc6f0;"></p>
+      <div class="modal-buttons">
+        <button id="btn-gameover-retry" class="btn-retro">TRY AGAIN (R)</button>
+        <button id="btn-gameover-select" class="btn-retro">LEVEL SELECT</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. Final Victory Modal -->
+  <div id="modal-victory" class="modal-overlay">
+    <div class="modal-dialog">
+      <h2 class="modal-title">THE TWINS REUNITED!</h2>
+      <div style="text-align: center; margin: 12px 0;">
+        <span style="font-size: 56px;">🏆</span>
+        <p style="margin-top: 8px; color: var(--moon-gold);">Both spirits have escaped the enchanted castle-gardens!</p>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-item"><span>TOTAL STARS:</span><span class="stat-val" id="victory-total-stars">15 / 15</span></div>
+        <div class="stat-item"><span>TOTAL MOVES:</span><span class="stat-val" id="victory-total-moves">0</span></div>
+      </div>
+      <div class="modal-buttons">
+        <button id="btn-victory-restart" class="btn-start-large">PLAY AGAIN</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Entry Point -->
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
